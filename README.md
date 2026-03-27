@@ -26,7 +26,9 @@ Once the package is published with its prebuilds, consumers should be able to in
 npm install bitcoin-random-js
 ```
 
-No local native compilation should be needed on supported platforms because [index.js](/home/giahuy/Documents/nunchuk/libnunchuk/contrib/bitcoin/bitcoin-random-js/index.js) loads binaries via `node-gyp-build`.
+No local native compilation should be needed on supported platforms because [index.js](/home/giahuy/Documents/nunchuk/libnunchuk/contrib/bitcoin/bitcoin-random-js/index.js) loads the packaged binary directly from `prebuilds/<platform>-<arch>/`.
+
+The published npm package has no npm dependencies.
 
 ## Usage notes
 
@@ -40,7 +42,6 @@ No local native compilation should be needed on supported platforms because [ind
 
 ```bash
 cd bitcoin-random-js
-npm install --ignore-scripts
 npm run build:native
 ```
 
@@ -60,7 +61,6 @@ Run the bundled example with:
 
 ```bash
 cd bitcoin-random-js
-npm install --ignore-scripts
 npm run build:native
 node example.js
 ```
@@ -71,7 +71,6 @@ To generate a prebuilt binary for the current platform:
 
 ```bash
 cd bitcoin-random-js
-npm install --ignore-scripts
 npm run build:prebuild
 ```
 

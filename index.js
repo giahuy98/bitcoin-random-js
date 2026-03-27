@@ -1,6 +1,31 @@
 'use strict';
 
-const native = require('node-gyp-build')(__dirname);
+const fs = require('node:fs');
+const path = require('node:path');
+
+function loadNativeModule() {
+  const localBuild = path.join(__dirname, 'build', 'Release', 'bitcoin_random_js.node');
+  if (fs.existsSync(localBuild)) {
+    return require(localBuild);
+  }
+
+  const prebuilt = path.join(
+    __dirname,
+    'prebuilds',
+    `${process.platform}-${process.arch}`,
+    'bitcoin-random-js.node',
+  );
+  if (fs.existsSync(prebuilt)) {
+    return require(prebuilt);
+  }
+
+  throw new Error(
+    `No native binary found for ${process.platform}-${process.arch}. ` +
+      'This package ships prebuilt binaries for linux-x64, win32-x64, darwin-x64, and darwin-arm64.',
+  );
+}
+
+const native = loadNativeModule();
 
 function assertLength(length) {
   if (!Number.isSafeInteger(length) || length < 0) {

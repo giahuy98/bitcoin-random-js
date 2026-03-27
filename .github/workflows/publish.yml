@@ -48,9 +48,6 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: Install npm dependencies
-        run: npm install --ignore-scripts
-
       - name: Build prebuilt binary
         run: npm run build:prebuild
 
@@ -82,9 +79,6 @@ jobs:
           pattern: prebuild-*
           path: prebuilds
           merge-multiple: true
-
-      - name: Install npm dependencies
-        run: npm install --ignore-scripts
 
       - name: Show packaged contents
         run: npm pack --dry-run

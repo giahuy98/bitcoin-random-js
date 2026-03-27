@@ -1,21 +1,20 @@
 'use strict';
 
-const { spawnSync } = require('node:child_process');
+const fs = require('node:fs');
+const path = require('node:path');
 
-const args = [
-  require.resolve('prebuildify/bin.js'),
-  '--napi',
-  '--strip',
-  '--target',
-  process.versions.node,
-];
+const runNodeGyp = require('./node-gyp');
 
-const result = spawnSync(process.execPath, args, {
-  stdio: 'inherit',
-});
+const rootDir = path.resolve(__dirname, '..');
+const outputDir = path.join(rootDir, 'prebuilds', `${process.platform}-${process.arch}`);
+const builtModule = path.join(rootDir, 'build', 'Release', 'bitcoin_random_js.node');
+const packagedModule = path.join(outputDir, 'bitcoin-random-js.node');
 
-if (result.error) {
-  throw result.error;
+runNodeGyp(['rebuild']);
+
+if (!fs.existsSync(builtModule)) {
+  throw new Error(`Expected built addon at ${builtModule}`);
 }
 
-process.exit(result.status ?? 1);
+fs.mkdirSync(outputDir, { recursive: true });
+fs.copyFileSync(builtModule, packagedModule);
