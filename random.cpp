@@ -30,7 +30,7 @@
 #include <unistd.h>
 #endif
 
-#if defined(__linux__)
+#if defined(__linux__) || defined(__APPLE__)
 #include <sys/random.h>
 #endif
 
