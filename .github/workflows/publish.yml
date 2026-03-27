@@ -1,0 +1,92 @@
+name: Publish
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  prebuilds:
+    name: prebuild / ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: linux-x64
+            os: ubuntu-latest
+          - name: win32-x64
+            os: windows-latest
+          - name: darwin-x64
+            os: macos-13
+          - name: darwin-arm64
+            os: macos-14
+
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install npm dependencies
+        run: npm install --ignore-scripts
+
+      - name: Build prebuilt binary
+        run: npm run build:prebuild
+
+      - name: Upload prebuild artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: prebuild-${{ matrix.name }}
+          path: prebuilds/**
+          if-no-files-found: error
+
+  publish:
+    name: publish npm package
+    needs: prebuilds
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Download all prebuilds
+        uses: actions/download-artifact@v4
+        with:
+          pattern: prebuild-*
+          path: prebuilds
+          merge-multiple: true
+
+      - name: Install npm dependencies
+        run: npm install --ignore-scripts
+
+      - name: Show packaged contents
+        run: npm pack --dry-run
+
+      - name: Publish to npm
+        run: npm publish --ignore-scripts --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

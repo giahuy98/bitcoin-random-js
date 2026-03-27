@@ -1,14 +1,18 @@
 {
   "name": "bitcoin-random-js",
   "version": "0.1.0",
-  "description": "Node.js addon exposing Bitcoin Core style random bytes",
+  "description": "Node.js addon exposing Bitcoin Core style random bytes with prebuilt binaries",
   "main": "index.js",
   "types": "index.d.ts",
   "gypfile": true,
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
-    "build": "node-gyp rebuild",
-    "install": "node-gyp rebuild",
-    "example": "node example.js"
+    "build:native": "node-gyp rebuild",
+    "build:prebuild": "node scripts/build-prebuilds.js",
+    "example": "node example.js",
+    "pack:dry-run": "npm pack --dry-run"
   },
   "files": [
     "addon.cpp",
@@ -18,14 +22,35 @@
     "index.js",
     "LICENSE",
     "README.md",
+    "prebuilds",
     "random.cpp",
-    "random.h"
+    "random.h",
+    "scripts"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/giahuy98/bitcoin-random-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/giahuy98/bitcoin-random-js/issues"
+  },
+  "homepage": "https://github.com/giahuy98/bitcoin-random-js#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "node-gyp-build": "^4.8.4"
+  },
+  "devDependencies": {
+    "node-gyp": "^11.4.2",
+    "prebuildify": "^6.0.1"
+  },
   "keywords": [
     "bitcoin",
     "random",
     "node-addon",
-    "napi"
+    "napi",
+    "prebuild"
   ],
   "license": "MIT"
 }

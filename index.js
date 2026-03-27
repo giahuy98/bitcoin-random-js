@@ -1,6 +1,6 @@
 'use strict';
 
-const native = require('./build/Release/bitcoin_random_js.node');
+const native = require('node-gyp-build')(__dirname);
 
 function assertLength(length) {
   if (!Number.isSafeInteger(length) || length < 0) {

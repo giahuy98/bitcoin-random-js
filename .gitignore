@@ -1,4 +1,7 @@
 build/
 cmake-build/
+node_modules/
+prebuilds/
 *.node
+*.tgz
 npm-debug.log*
