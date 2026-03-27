@@ -1,0 +1,31 @@
+{
+  "name": "bitcoin-random-js",
+  "version": "0.1.0",
+  "description": "Node.js addon exposing Bitcoin Core style random bytes",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "gypfile": true,
+  "scripts": {
+    "build": "node-gyp rebuild",
+    "install": "node-gyp rebuild",
+    "example": "node example.js"
+  },
+  "files": [
+    "addon.cpp",
+    "binding.gyp",
+    "example.js",
+    "index.d.ts",
+    "index.js",
+    "LICENSE",
+    "README.md",
+    "random.cpp",
+    "random.h"
+  ],
+  "keywords": [
+    "bitcoin",
+    "random",
+    "node-addon",
+    "napi"
+  ],
+  "license": "MIT"
+}
