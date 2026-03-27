@@ -28,6 +28,14 @@ npm install bitcoin-random-js
 
 No local native compilation should be needed on supported platforms because [index.js](/home/giahuy/Documents/nunchuk/libnunchuk/contrib/bitcoin/bitcoin-random-js/index.js) loads binaries via `node-gyp-build`.
 
+## Usage notes
+
+- `getStrongRandBytes(length)` accepts any non-negative length. It is not capped at 32 bytes; requests larger than 32 bytes are filled internally in 32-byte chunks.
+- `getRandHash()` is the fixed-size 32-byte helper.
+- `randomInit()` is optional. The RNG seeds lazily on first use, so normal clients do not need to call it before `getRandBytes()` or `getStrongRandBytes()`.
+- `randAddPeriodic()` is optional. It is a maintenance hook for long-lived host processes that want to periodically mix in fresh environmental entropy, not a required step for ordinary consumers.
+- `randAddEvent()` is also an advanced host hook. Most Node clients should not need it.
+
 ## Node.js build
 
 ```bash
@@ -41,7 +49,7 @@ npm run build:native
 ```js
 const { getStrongRandBytes } = require('./');
 
-const bytes = getStrongRandBytes(32);
+const bytes = getStrongRandBytes(64);
 console.log(bytes.toString('hex'));
 ```
 

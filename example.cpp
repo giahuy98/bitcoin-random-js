@@ -29,10 +29,10 @@ int main()
 {
     using namespace bitcoin_random;
 
-    std::array<unsigned char, 32> bytes{};
+    std::array<unsigned char, 64> bytes{};
     GetStrongRandBytes(bytes);
 
-    std::cout << "32 strong random bytes: ";
+    std::cout << "64 strong random bytes: ";
     PrintHex(std::as_bytes(std::span<unsigned char>(bytes)));
 
     FastRandomContext fast_rng;
