@@ -35,6 +35,13 @@ int main()
     std::cout << "64 strong random bytes: ";
     PrintHex(std::as_bytes(std::span<unsigned char>(bytes)));
 
+    RandAddPeriodic();
+
+    std::array<unsigned char, 16> more_bytes{};
+    GetStrongRandBytes(more_bytes);
+    std::cout << "16 more strong random bytes after RandAddPeriodic(): ";
+    PrintHex(std::as_bytes(std::span<unsigned char>(more_bytes)));
+
     FastRandomContext fast_rng;
     const auto fast_value = fast_rng.rand64();
     std::cout << "FastRandomContext rand64(): " << fast_value << '\n';

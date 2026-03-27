@@ -47,10 +47,13 @@ npm run build:native
 ## Node.js example
 
 ```js
-const { getStrongRandBytes } = require('./');
+const { getStrongRandBytes, randAddPeriodic } = require('./');
 
 const bytes = getStrongRandBytes(64);
 console.log(bytes.toString('hex'));
+
+// Optional for long-lived processes.
+randAddPeriodic();
 ```
 
 Run the bundled example with:
