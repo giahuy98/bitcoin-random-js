@@ -26,7 +26,7 @@ Once the package is published with its prebuilds, consumers should be able to in
 npm install bitcoin-random-js
 ```
 
-No local native compilation should be needed on supported platforms because [index.js](/home/giahuy/Documents/nunchuk/libnunchuk/contrib/bitcoin/bitcoin-random-js/index.js) loads the packaged binary directly from `prebuilds/<platform>-<arch>/`.
+No local native compilation should be needed on supported platforms because `index.js` loads the packaged binary directly from `prebuilds/<platform>-<arch>/`.
 
 The published npm package has no npm dependencies.
 
@@ -89,8 +89,8 @@ To use it, set `NPM_TOKEN` in the repository secrets and push a `v*` tag.
 ## Native C++ build
 
 ```bash
-cmake -S bitcoin-random-js -B /tmp/bitcoin-random-js-build
-cmake --build /tmp/bitcoin-random-js-build
+cmake -S . -B build
+cmake --build build
 ```
 
 ## Native C++ example
