@@ -7,7 +7,7 @@
         "random.cpp"
       ],
       "cflags_cc": [
-        "-std=c++20"
+        "-std=c++2a"
       ],
       "msvs_settings": {
         "VCCLCompilerTool": {

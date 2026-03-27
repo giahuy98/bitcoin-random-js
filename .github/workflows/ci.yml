@@ -58,6 +58,22 @@ jobs:
       - name: Run Node example against prebuild
         run: node example.js
 
+      - name: Pack npm tarball
+        run: npm pack
+
+      - name: Test consumer install from tarball
+        run: |
+          TARBALL="bitcoin-random-js-$(node -p "require('./package.json').version").tgz"
+          CONSUMER_DIR="$(mktemp -d)"
+          cd "$CONSUMER_DIR"
+          npm init -y
+          npm install "${GITHUB_WORKSPACE}/${TARBALL}"
+          if [ -f node_modules/bitcoin-random-js/build/Release/bitcoin_random_js.node ]; then
+            echo "consumer install fell back to a local build"
+            exit 1
+          fi
+          PREBUILDS_ONLY=1 node -e "const pkg = require('bitcoin-random-js'); const bytes = pkg.getStrongRandBytes(8); console.log(bytes.toString('hex'));"
+
       - name: Configure CMake example
         run: cmake -S . -B cmake-build
 

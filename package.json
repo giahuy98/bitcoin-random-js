@@ -1,6 +1,6 @@
 {
   "name": "bitcoin-random-js",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Node.js addon exposing Bitcoin Core style random bytes with prebuilt binaries",
   "main": "index.js",
   "types": "index.d.ts",
@@ -12,6 +12,7 @@
     "build:native": "node-gyp rebuild",
     "build:prebuild": "node scripts/build-prebuilds.js",
     "example": "node example.js",
+    "install": "node-gyp-build",
     "pack:dry-run": "npm pack --dry-run"
   },
   "files": [
